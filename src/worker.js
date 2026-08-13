@@ -34,6 +34,7 @@ export default {
             carLabel: env.PUBLIC_CAR_LABEL || "这辆车",
             notice: env.PUBLIC_NOTICE || "感谢理解，我会尽快赶来",
             turnstileSiteKey: env.TURNSTILE_SITE_KEY || null,
+            pushConfigured: Boolean(env.PUSHPLUS_TOKEN),
             phoneConfigured: Boolean(phoneForTel(env.PHONE_NUMBER)),
           },
           { headers: API_HEADERS },
@@ -76,6 +77,10 @@ export default {
 
 async function handleMoveRequest(request, env, ctx) {
   if (!isSameOriginMutation(request)) return apiError("请求来源无效", 403);
+  if (!env.PUSHPLUS_TOKEN) {
+    console.error("MoveCar request rejected because PushPlus is not configured");
+    return apiError("车主尚未完成微信通知配置，请改用其他联系方式", 503, "PUSH_NOT_CONFIGURED");
+  }
   const body = await readJsonBody(request);
   if (!body) return apiError("请求内容无效", 400);
 

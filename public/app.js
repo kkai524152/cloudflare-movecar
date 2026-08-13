@@ -30,6 +30,10 @@ async function init() {
     state.config = await response.json();
     $("#carIntro").textContent = `${state.config.carLabel}的${state.config.ownerName}会收到提醒；未共享位置时有 30 秒安全等待，电话号码不会公开展示。`;
     if (state.config.turnstileSiteKey) mountTurnstile(state.config.turnstileSiteKey);
+    if (!state.config.pushConfigured) {
+      submitButton.disabled = true;
+      showError("车主尚未完成微信通知配置，请改用其他联系方式");
+    }
   } catch {
     showError("网络连接不稳定，请刷新页面重试");
   }
@@ -106,6 +110,10 @@ function setLocationUi(selected, title, hint) {
 async function submitRequest(event) {
   event.preventDefault();
   hideError();
+  if (state.config?.pushConfigured === false) {
+    showError("车主尚未完成微信通知配置，请改用其他联系方式");
+    return;
+  }
   if (state.config?.turnstileSiteKey && !state.turnstileToken) {
     showError("请先完成人机验证");
     return;
