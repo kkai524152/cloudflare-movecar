@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f5f0e8" />
+    <meta name="description" content="扫码通知车主挪车，PushPlus 受理后可按需获取电话。" />
+    <title>请帮忙挪一下车</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/styles.css?v=20260812-3" />
+    <script type="module" src="/app.js?v=20260812-3"></script>
+  </head>
+  <body>
+    <div class="ambient ambient-a" aria-hidden="true"></div>
+    <div class="ambient ambient-b" aria-hidden="true"></div>
+    <main class="shell">
+      <header class="brandbar">
+        <a class="brand" href="/" aria-label="回到首页">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5.2 16.5h13.6M7.2 16.5l.8-5h8l.8 5M8.7 11.5l1-2.5h4.6l1 2.5M7 16.5v1.1M17 16.5v1.1" /></svg>
+          </span>
+          <span>轻声挪车</span>
+        </a>
+        <span class="secure-pill"><i></i> 隐私保护</span>
+      </header>
+
+      <section id="requestView" class="request-layout">
+        <div class="hero-copy">
+          <p class="eyebrow">MOVE CAR · 挪车联系</p>
+          <h1>您好，<br />可以帮忙挪一下车吗？</h1>
+          <p id="carIntro" class="lede">我会通知车主，不会直接公开电话号码。</p>
+          <div class="trust-row" aria-label="服务特点">
+            <span><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.6-2.8 8-7 10-4.2-2-7-5.4-7-10V6l7-3zM9 12l2 2 4-4" /></svg>号码保护</span>
+            <span><svg viewBox="0 0 24 24"><path d="M12 21a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM12 8v4l3 2M9 2h6" /></svg>即时送达</span>
+          </div>
+        </div>
+
+        <section class="action-card" aria-labelledby="formTitle">
+          <div class="card-head">
+            <div>
+              <p class="step-label">01 / 留下情况</p>
+              <h2 id="formTitle">告诉车主发生了什么</h2>
+            </div>
+            <span class="signal" title="通知服务在线"><i></i><i></i><i></i></span>
+          </div>
+
+          <form id="requestForm">
+            <div class="quick-messages" aria-label="常用留言">
+              <button type="button" class="chip active" data-message="挡住出口了，麻烦挪一下车">挡住出口</button>
+              <button type="button" class="chip" data-message="临时有急事需要驶出，麻烦尽快挪车">着急驶出</button>
+              <button type="button" class="chip" data-message="车辆可能存在安全隐患，请尽快查看">车辆提醒</button>
+            </div>
+
+            <label class="field-label" for="message">补充留言 <span>选填，最多 80 字</span></label>
+            <div class="textarea-wrap">
+              <textarea id="message" maxlength="80" rows="3" placeholder="例如：我在地库 B2 层等您">挡住出口了，麻烦挪一下车</textarea>
+              <span id="messageCount" class="char-count">13 / 80</span>
+            </div>
+
+            <button id="locationButton" class="location-row" type="button" aria-pressed="false">
+              <span class="location-icon">
+                <svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0zM12 7.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z" /></svg>
+              </span>
+              <span class="location-copy">
+                <strong id="locationTitle">附上我所在的位置</strong>
+                <small id="locationHint">可选；不共享位置时将等待 30 秒发送</small>
+              </span>
+              <span class="toggle" aria-hidden="true"><i></i></span>
+            </button>
+
+            <div id="turnstileMount" class="turnstile-mount" hidden></div>
+            <p id="formError" class="form-error" role="alert" hidden></p>
+
+            <button id="submitButton" class="primary-button" type="submit">
+              <span>通知车主</span>
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
+            </button>
+            <p class="consent-note">点击通知即表示确有挪车需要。请勿恶意呼叫。</p>
+          </form>
+        </section>
+      </section>
+
+      <section id="waitingView" class="result-card" hidden>
+        <div id="resultIcon" class="result-icon waiting">
+          <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 8h18c0-1-3-1-3-8M10 20h4" /></svg>
+        </div>
+        <p id="resultEyebrow" class="eyebrow">正在读取状态</p>
+        <h1 id="resultTitle">正在确认通知进度</h1>
+        <p id="resultText" class="result-text" role="status" aria-live="polite">请稍候。</p>
+
+        <div id="delayPanel" class="delay-panel" hidden>
+          <div class="countdown-wrap">
+            <span class="countdown-label">将在</span>
+            <strong id="countdownText" aria-live="off">00:30</strong>
+            <span class="countdown-label">后通知</span>
+          </div>
+          <p>未附带位置的呼叫会短暂等待，以减少误扫和恶意骚扰。倒计时结束后自动发送，无需停留在此页。</p>
+          <div class="delay-actions">
+            <button id="sendNowButton" class="secondary-button" type="button">
+              <svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0zM12 7.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z" /></svg>
+              <span>获取位置并立即发送</span>
+            </button>
+            <button id="cancelButton" class="text-button" type="button">取消这次呼叫</button>
+          </div>
+        </div>
+
+        <div class="progress-track" aria-label="处理进度">
+          <div class="progress-step done"><i></i><span>已发起</span></div>
+          <div class="progress-line active"></div>
+          <div id="notifiedStep" class="progress-step done"><i></i><span>已提交</span></div>
+          <div id="confirmedLine" class="progress-line"></div>
+          <div id="confirmedStep" class="progress-step"><i></i><span>车主回复</span></div>
+        </div>
+
+        <div id="ownerReply" class="owner-reply" hidden>
+          <span>车主回复</span>
+          <strong id="ownerReplyText">已收到，我正在赶来</strong>
+          <a id="ownerMapLink" href="#" target="_blank" rel="noopener" hidden>查看车主位置 →</a>
+        </div>
+
+        <div class="result-actions">
+          <button id="phoneButton" class="secondary-button" type="button">
+            <svg viewBox="0 0 24 24"><path d="M6.6 3h3l1.5 4-2 1.5a15 15 0 0 0 6.4 6.4l1.5-2 4 1.5v3c0 2-1.6 3.6-3.6 3.6C9.4 21 3 14.6 3 6.6 3 4.6 4.6 3 6.6 3z" /></svg>
+            <span>仍需帮助？获取车主电话</span>
+          </button>
+          <a id="callButton" class="primary-button call-button" href="#" hidden>
+            <span id="callButtonText">拨打车主电话</span>
+            <svg viewBox="0 0 24 24"><path d="M6.6 3h3l1.5 4-2 1.5a15 15 0 0 0 6.4 6.4l1.5-2 4 1.5v3c0 2-1.6 3.6-3.6 3.6C9.4 21 3 14.6 3 6.6 3 4.6 4.6 3 6.6 3z" /></svg>
+          </a>
+        </div>
+        <p id="expiryText" class="expiry-text"></p>
+      </section>
+
+      <footer>
+        <span>Powered at the edge by Cloudflare</span>
+        <span>·</span>
+        <span>位置仅用于本次挪车</span>
+      </footer>
+    </main>
+    <div id="toast" class="toast" role="status" hidden></div>
+  </body>
+</html>

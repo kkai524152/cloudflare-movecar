@@ -1,0 +1,12 @@
+{
+  "name": "轻声挪车",
+  "short_name": "挪车",
+  "description": "隐私友好的扫码挪车通知",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4efe6",
+  "theme_color": "#17324d",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "cloudflare-movecar",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "node --check src/worker.js && node --check src/lib.js && node --check public/app.js && node --check public/owner.js && node --test",
+    "cf-typegen": "wrangler types"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

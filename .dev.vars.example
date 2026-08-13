@@ -1,0 +1,13 @@
+# 本地开发时复制为 .dev.vars；不要提交真实值。
+PUSHPLUS_TOKEN="your-pushplus-token"
+PHONE_NUMBER="13800138000"
+
+# 可选：Cloudflare Turnstile。两个值需同时配置。
+TURNSTILE_SITE_KEY=""
+TURNSTILE_SECRET_KEY=""
+
+# 可选：固定部署域名，用于生成推送中的车主确认链接。
+# PUBLIC_BASE_URL="https://move.example.com"
+
+# 可选：仅允许指定国家/地区，逗号分隔，例如 CN,HK。
+# ALLOWED_COUNTRIES="CN"

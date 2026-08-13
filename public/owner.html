@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#17324d" />
+    <meta name="robots" content="noindex,nofollow,noarchive" />
+    <title>处理挪车请求</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css?v=20260812-3" />
+    <script type="module" src="/owner.js?v=20260812-3"></script>
+  </head>
+  <body class="owner-page">
+    <div class="ambient ambient-a" aria-hidden="true"></div>
+    <main class="shell owner-shell">
+      <header class="brandbar owner-brandbar">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5.2 16.5h13.6M7.2 16.5l.8-5h8l.8 5M8.7 11.5l1-2.5h4.6l1 2.5M7 16.5v1.1M17 16.5v1.1" /></svg>
+          </span>
+          <span>车主处理页</span>
+        </a>
+        <span class="secure-pill"><i></i> 私密链接</span>
+      </header>
+
+      <section class="owner-grid">
+        <div class="owner-heading">
+          <p class="eyebrow">MOVE REQUEST · 新消息</p>
+          <h1>有人正在<br />车辆旁等待</h1>
+          <p>确认情况后，轻触按钮告诉对方您已经收到。</p>
+        </div>
+
+        <section id="ownerCard" class="action-card owner-card" aria-live="polite">
+          <div id="ownerLoading" class="owner-loading">
+            <span class="spinner"></span>
+            <strong>正在读取呼叫信息</strong>
+          </div>
+
+          <div id="ownerContent" hidden>
+            <div class="request-meta">
+              <span class="request-avatar">呼</span>
+              <div><small>对方留言</small><strong id="requestMessage">—</strong></div>
+              <time id="requestTime">刚刚</time>
+            </div>
+
+            <a id="requesterMap" class="map-preview" href="#" target="_blank" rel="noopener" hidden>
+              <span class="location-icon">
+                <svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0zM12 7.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z" /></svg>
+              </span>
+              <span><strong>呼叫者共享了位置</strong><small>点击在地图中确认</small></span>
+              <svg class="arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+            </a>
+            <div id="noRequesterMap" class="map-preview disabled">
+              <span class="location-icon">
+                <svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0zM12 7.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z" /></svg>
+              </span>
+              <span><strong>对方未共享位置</strong><small>仍可直接回复对方</small></span>
+            </div>
+
+            <label class="field-label" for="ownerReplyInput">回复对方</label>
+            <div class="reply-options">
+              <button class="reply-chip active" type="button" data-reply="已收到，我正在赶来">正在赶来</button>
+              <button class="reply-chip" type="button" data-reply="请稍等，大约 5 分钟到">约 5 分钟</button>
+              <button class="reply-chip" type="button" data-reply="我马上联系您，请留意电话">马上联系</button>
+            </div>
+            <input id="ownerReplyInput" class="text-input" maxlength="40" value="已收到，我正在赶来" />
+
+            <button id="ownerLocationButton" class="location-row" type="button" aria-pressed="false">
+              <span class="location-icon">
+                <svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0zM12 7.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z" /></svg>
+              </span>
+              <span class="location-copy">
+                <strong id="ownerLocationTitle">把我的位置分享给对方</strong>
+                <small id="ownerLocationHint">选填，仅本次呼叫可见</small>
+              </span>
+              <span class="toggle" aria-hidden="true"><i></i></span>
+            </button>
+
+            <p id="ownerError" class="form-error" role="alert" hidden></p>
+            <button id="confirmButton" class="primary-button" type="button">
+              <span>我已收到，回复对方</span>
+              <svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6" /></svg>
+            </button>
+          </div>
+
+          <div id="ownerDone" class="owner-done" hidden>
+            <div class="result-icon confirmed">
+              <svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6" /></svg>
+            </div>
+            <h2>已告诉对方</h2>
+            <p>感谢及时处理，路上注意安全。</p>
+          </div>
+
+          <div id="ownerInvalid" class="owner-done" hidden>
+            <div class="result-icon error-icon">!</div>
+            <h2>链接已失效</h2>
+            <p id="ownerInvalidText">这次挪车呼叫已过期或链接不完整。</p>
+          </div>
+        </section>
+      </section>
+
+      <footer><span>此链接包含本次呼叫的私密凭证，请勿转发</span></footer>
+    </main>
+  </body>
+</html>

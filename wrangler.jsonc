@@ -1,0 +1,39 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "cloudflare-movecar",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-08-11",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "MOVECAR_SESSION",
+        "class_name": "MoveCarSession"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["MoveCarSession"]
+    }
+  ],
+  "vars": {
+    "PUBLIC_OWNER_NAME": "车主",
+    "PUBLIC_CAR_LABEL": "一辆临时停靠的车",
+    "PUBLIC_NOTICE": "感谢理解，我会尽快赶来",
+    "REQUEST_COOLDOWN_SECONDS": "90",
+    "SESSION_TTL_SECONDS": "3600",
+    "DELAY_WITHOUT_LOCATION_SECONDS": "30",
+    "PUSHPLUS_ENDPOINT": "https://www.pushplus.plus/send",
+    "ENVIRONMENT": "production"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
