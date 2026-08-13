@@ -196,6 +196,19 @@ Secret 命令会提示输入值，不要把值直接写进 shell 命令或聊天
 
 `wrangler secret put` 会为 Worker 创建新版本并立即部署，因此上面的多个 Secret 命令会分别触发部署。全部写入后，以最后一次部署的版本为准，再进行完整测试。
 
+如果通过 Cloudflare Dashboard 添加变量或 Secret，保存后还需要在 **Deployments / Versions** 中把包含这些配置的最新版本部署到 100% 流量。只创建版本但不部署时，线上仍会继续运行旧版本，可用下面的命令核对：
+
+```bash
+npx wrangler versions list
+npx wrangler deployments list
+```
+
+生产环境是否真正存在加密 Secret，可只查看名称而不读取值：
+
+```bash
+npx wrangler secret list
+```
+
 如绑定自定义域名，域名必须是当前 Cloudflare 账号中的 active zone，目标 hostname 不能已有 CNAME 记录。在 Cloudflare Dashboard 的 Worker 设置中进入 **Settings → Domains & Routes → Add → Custom Domain** 添加；Cloudflare 会创建 DNS 记录和证书。通常代码会根据当前请求自动生成正确链接；如果前面还有代理、存在多个域名或希望始终使用主域名，请设置：
 
 ```jsonc

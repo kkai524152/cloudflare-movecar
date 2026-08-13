@@ -283,10 +283,19 @@ async function sendPushPlus(env, data) {
     if (!response.ok) return { ok: false, reason: `HTTP ${response.status}` };
     const result = await response.json().catch(() => null);
     if (!result || Number(result.code) !== 200) {
-      return { ok: false, reason: result?.msg || "Invalid PushPlus response" };
+      const reason = result?.msg || "Invalid PushPlus response";
+      console.error("PushPlus rejected notification", {
+        code: result?.code ?? null,
+        reason,
+      });
+      return { ok: false, reason };
     }
+    console.log("PushPlus accepted notification", {
+      receipt: result.data ?? null,
+    });
     return { ok: true, receipt: result.data ?? null };
   } catch (error) {
+    console.error("PushPlus request failed", { reason: error.message });
     return { ok: false, reason: error.message };
   }
 }
@@ -616,6 +625,11 @@ export class MoveCarSession {
       return json({ ok: true, status: current.status });
     }
 
+    console.error("MoveCar notification delivery failed", {
+      sessionId: current.sessionId,
+      retryCount: Number(current.retryCount || 0) + 1,
+      reason: result.reason,
+    });
     current.retryCount = Number(current.retryCount || 0) + 1;
     current.attemptId = null;
     const nextRetryAt = Date.now() + current.retryCount * 15000;
